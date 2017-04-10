@@ -72,6 +72,7 @@ type alias Settings =
     , firstDayOfWeek : Day
     , pickedDate : Maybe Date
     , changeYear : YearRange
+    , today : Date
     }
 
 
@@ -128,6 +129,7 @@ defaultSettings =
     , firstDayOfWeek = Sun
     , pickedDate = Nothing
     , changeYear = off
+    , today = initDate
     }
 
 
@@ -215,14 +217,14 @@ init : Settings -> ( DatePicker, Cmd Msg )
 init settings =
     let
         date =
-            settings.pickedDate ?> initDate
+            settings.pickedDate ?> settings.today
     in
         ( DatePicker <|
             prepareDates date
                 { open = False
                 , forceOpen = False
-                , today = initDate
-                , currentMonth = initDate
+                , today = date
+                , currentMonth = date
                 , currentDates = []
                 , inputText =
                     settings.pickedDate
